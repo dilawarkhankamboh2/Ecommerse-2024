@@ -1,22 +1,20 @@
 import mongoose from "mongoose";
+import { config } from "../config/config.js";
 
-export const DatabaseConnection = async () => {
+export const connectDB = async () => {
 
   try {
 
-    const connect = await mongoose.connect(
+     mongoose.connection.on("connected", ()=> console.log("Connect to database successfully"));
 
-      "mongodb://127.0.0.1:27017/JobEcommerse2024"
+     mongoose.connection.on("error", ()=> console.log("Error in connection to database"));
 
-    );
-
-    if (connect) console.log("Database Connected...");
-
+     await mongoose.connect(config.DATABASE_URL!);
+     
   } catch (error) {
 
     console.log("Connection faild...");
-
-    throw error;
+    process.exit(1);
   }
 };
 

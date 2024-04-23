@@ -1,6 +1,8 @@
 import express from "express";
-import { DatabaseConnection } from "./database/connection.js";
 export const app = express();
 
-// database connection
-DatabaseConnection();
+// api routes
+app.get("/api/test", (req, res, next)=>{
+
+    res.json({message: "all api working "})
+})
