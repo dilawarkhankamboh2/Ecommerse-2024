@@ -8,6 +8,6 @@ import { connectDB } from "./database/connection.js";
 
   app.listen(PORT, () => console.log(`server runnit at port ${PORT}`));
 
-  // database connection
+  //database connection
   await connectDB();
 })();

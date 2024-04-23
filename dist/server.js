@@ -5,6 +5,6 @@ import { connectDB } from "./database/connection.js";
 (async () => {
     const PORT = config.PORT || 8090;
     app.listen(PORT, () => console.log(`server runnit at port ${PORT}`));
-    // database connection
+    //database connection
     await connectDB();
 })();
