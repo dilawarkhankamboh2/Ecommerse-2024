@@ -5,10 +5,10 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node dist/app.js",
+    "start": "node dist/serverjs",
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "nodemon dist/app.js"
+    "dev": "nodemon dist/server.js"
   },
   "author": "Dilawar khan kamboh",
   "license": "ISC",
