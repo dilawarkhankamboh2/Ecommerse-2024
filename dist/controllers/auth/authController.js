@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { config } from "../../config/config.js";
 // register controller
-const registerController = TryCatch(async (req, res, next) => {
+const register = TryCatch(async (req, res, next) => {
     // get all body data
     const { _id, name, email, password, dob } = req.body;
     // validate user data
@@ -25,4 +25,25 @@ const registerController = TryCatch(async (req, res, next) => {
     const token = jwt.sign(user._id, config.JWT_KEY);
     return res.json({ token: token });
 });
-export { registerController };
+// login 
+const login = TryCatch(async (req, res, next) => {
+    // get all body data
+    const { _id, email, password } = req.body;
+    // validate user data
+    if (!_id || !email || !password) {
+        return next(createHttpError(400, "All fields are required!"));
+    }
+    // match user
+    const user = await Auth.findOne({ email });
+    if (user) {
+        // compare password
+        const matchPwd = await bcrypt.compare(password, user.password);
+        if (!matchPwd) {
+            return res.status(400).json({ message: "Wrong username or password" });
+        }
+        const token = jwt.sign(user._id, config.JWT_KEY);
+        return res.status(200).json({ message: "You are logged in", token: token });
+    }
+    return res.status(400).json({ message: "Opps please signin" });
+});
+export { register, login };
