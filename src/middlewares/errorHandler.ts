@@ -10,7 +10,7 @@ export const Errorhandler= (err:HttpError, req:Request, res:Response, next:NextF
 
         message: err.message,
         status: err.status,
-        stack: config.env === "development" ? err.stack : ""
+        // stack: config.env === "development" ? err.stack : ""
     })
 
 }

@@ -1,9 +1,10 @@
 import express from "express";
-import createHttpError, { HttpError } from "http-errors";
 import { Errorhandler } from "./middlewares/errorHandler.js";
 import { allApiRoutes } from "./routes/index.routes.js";
 export const app = express();
 
+// middleware
+app.use(express.json());
 
 // all api routes
 allApiRoutes(app);
