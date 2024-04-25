@@ -2,7 +2,9 @@ import { Request } from "express";
 import { TryCatch } from "../../utils/tryCatch.js";
 import { ProductsTypes } from "../../types/productsTypes.js";
 import createHttpError from "http-errors";
+import { Product } from "../../models/productModel/products.model.js";
 
+// create product
 const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, next)=>{
 
     const {name, price, stock, category} = req.body;
@@ -15,14 +17,12 @@ const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, nex
     // photo
     const photo= req.file;
 
-    console.log(photo)
+    if(!photo){return next(createHttpError(400, "photo must be required"))}
 
-    if(!photo){
+    // create products
+    await Product.create({name, price,category,stock, photo: photo.path})
 
-        return next(createHttpError(400, "photo must be required"));
-    }
-
-    return res.status(200).json({success:true})
+    return res.status(200).json({message: "product created", success:true});
     
 })
 
