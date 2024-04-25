@@ -99,6 +99,7 @@ const updateProduct= TryCatch(async(req:Request, res, next)=>{
     return res.status(200).json({message: "product update successfully", success:true});
 })
 
+// search products
 const searchProducts = TryCatch(async(req:Request<{},{},{},ProductQuery>, res, next)=>{
 
     const {search, price, category} = req.query;

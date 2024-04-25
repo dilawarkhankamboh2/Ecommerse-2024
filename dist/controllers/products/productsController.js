@@ -83,6 +83,7 @@ const updateProduct = TryCatch(async (req, res, next) => {
     await product.save();
     return res.status(200).json({ message: "product update successfully", success: true });
 });
+// search products
 const searchProducts = TryCatch(async (req, res, next) => {
     const { search, price, category } = req.query;
     const BaseQuery = {};
