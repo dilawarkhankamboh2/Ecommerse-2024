@@ -22,8 +22,30 @@ const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, nex
     // create products
     await Product.create({name, price,category,stock, photo: photo.path})
 
-    return res.status(200).json({message: "product created", success:true});
+    return res.status(201).json({message: "product created", success:true});
     
+});
+
+// get all products
+ const allProducts= TryCatch(async(req, res, next)=>{
+
+    const products= await Product.find({});
+
+    return res.status(200).json(products);
 })
 
-export {createProducts};
+// get single products
+const singleProduct= TryCatch(async(req, res, next)=>{
+
+    const {id} = req.params;
+
+    if(!id) return next(createHttpError(400, "id must be required"))
+
+    const product= await Product.findById(id);
+
+    if(!product) return next(createHttpError(400, "product not found!"))
+
+    return res.status(200).json(product);
+})
+
+export {createProducts, allProducts,singleProduct };
