@@ -17,10 +17,22 @@ const singleUser = TryCatch(async (req, res, next) => {
 // delete single user
 const deleteUser = TryCatch(async (req, res, next) => {
     const { id } = req.params;
-    const user = await Auth.findById(id).select("-password");
+    const user = await Auth.findById(id);
     if (!user)
         return next(createHttpError(400, "user not found"));
     await user.deleteOne();
     return res.status(200).json({ user });
 });
-export { allUsers, singleUser, deleteUser };
+// update user role
+const updateRole = TryCatch(async (req, res, next) => {
+    const { role } = req.body;
+    const { id } = req.params;
+    const user = await Auth.findById(id);
+    if (user && role) {
+        user.role = role;
+    }
+    ;
+    await user?.save();
+    return res.status(200).json({ message: "user update successfully", success: true });
+});
+export { allUsers, singleUser, deleteUser, updateRole };
