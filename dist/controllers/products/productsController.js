@@ -31,4 +31,35 @@ const singleProduct = TryCatch(async (req, res, next) => {
         return next(createHttpError(400, "product not found!"));
     return res.status(200).json(product);
 });
-export { createProducts, allProducts, singleProduct };
+// update single products
+const updateProduct = TryCatch(async (req, res, next) => {
+    const { name, price, category, stock } = req.body;
+    const photo = req.file;
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (!product)
+        return next(createHttpError(400, "product not found!"));
+    if (product && name) {
+        product.name = name;
+    }
+    ;
+    if (product && price) {
+        product.price = price;
+    }
+    ;
+    if (product && category) {
+        product.category = category;
+    }
+    ;
+    if (product && stock) {
+        product.stock = stock;
+    }
+    ;
+    if (product && photo) {
+        product.photo = photo.path;
+    }
+    ;
+    await product.save();
+    return res.status(200).json({ message: "product update successfully", success: true });
+});
+export { createProducts, allProducts, singleProduct, updateProduct };
