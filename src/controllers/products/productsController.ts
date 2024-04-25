@@ -34,6 +34,14 @@ const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, nex
     return res.status(200).json(products);
 })
 
+// category products
+ const productCategory= TryCatch(async(req, res, next)=>{
+
+    const products= await Product.distinct("category");
+
+    return res.status(200).json(products);
+})
+
 // get single products
 const singleProduct= TryCatch(async(req, res, next)=>{
 
@@ -72,4 +80,4 @@ const updateProduct= TryCatch(async(req:Request, res, next)=>{
     return res.status(200).json({message: "product update successfully", success:true});
 })
 
-export {createProducts, allProducts,singleProduct, updateProduct };
+export {createProducts, allProducts,singleProduct, updateProduct, productCategory };
