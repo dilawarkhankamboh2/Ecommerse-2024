@@ -1,6 +1,7 @@
 import { TryCatch } from "../../utils/tryCatch.js";
 import createHttpError from "http-errors";
 import { Product } from "../../models/productModel/products.model.js";
+import { rm } from "fs";
 // create product
 const createProducts = TryCatch(async (req, res, next) => {
     const { name, price, stock, category } = req.body;
@@ -47,26 +48,36 @@ const updateProduct = TryCatch(async (req, res, next) => {
     const photo = req.file;
     const { id } = req.params;
     const product = await Product.findById(id);
+    if (photo) {
+        rm(product?.photo, (err) => {
+            if (err) {
+                console.error("Error deleting file:", err);
+            }
+            else {
+                console.log("File deleted successfully");
+            }
+        });
+    }
     if (!product)
         return next(createHttpError(400, "product not found!"));
-    if (product && name) {
+    if (photo && product) {
+        product.photo = photo.path;
+    }
+    ;
+    if (name && product) {
         product.name = name;
     }
     ;
-    if (product && price) {
-        product.price = price;
-    }
-    ;
-    if (product && category) {
-        product.category = category;
-    }
-    ;
-    if (product && stock) {
+    if (stock && product) {
         product.stock = stock;
     }
     ;
-    if (product && photo) {
-        product.photo = photo.path;
+    if (price && product) {
+        product.price = price;
+    }
+    ;
+    if (category && product) {
+        product.category = category;
     }
     ;
     await product.save();

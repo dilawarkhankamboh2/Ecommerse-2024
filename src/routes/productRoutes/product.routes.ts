@@ -19,5 +19,5 @@ export const productRoutes = (app: any)=>{
     app.get("/api/product/single-product/:id", singleProduct);
 
     // update single product
-    app.put("/api/product/update-product/:id", updateProduct);
+    app.put("/api/product/update-product/:id", fileUpload, updateProduct);
 }
