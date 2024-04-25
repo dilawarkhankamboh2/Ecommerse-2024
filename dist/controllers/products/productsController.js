@@ -26,6 +26,11 @@ const productCategory = TryCatch(async (req, res, next) => {
     const products = await Product.distinct("category");
     return res.status(200).json(products);
 });
+// latest products
+const latestProducts = TryCatch(async (req, res, next) => {
+    const products = await Product.find().sort({ createdAt: -1 });
+    return res.status(200).json(products);
+});
 // get single products
 const singleProduct = TryCatch(async (req, res, next) => {
     const { id } = req.params;
@@ -67,4 +72,4 @@ const updateProduct = TryCatch(async (req, res, next) => {
     await product.save();
     return res.status(200).json({ message: "product update successfully", success: true });
 });
-export { createProducts, allProducts, singleProduct, updateProduct, productCategory };
+export { createProducts, allProducts, singleProduct, updateProduct, productCategory, latestProducts };
