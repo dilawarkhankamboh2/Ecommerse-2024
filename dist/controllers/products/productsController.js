@@ -83,4 +83,19 @@ const updateProduct = TryCatch(async (req, res, next) => {
     await product.save();
     return res.status(200).json({ message: "product update successfully", success: true });
 });
-export { createProducts, allProducts, singleProduct, updateProduct, productCategory, latestProducts };
+const searchProducts = TryCatch(async (req, res, next) => {
+    const { search, price, category } = req.query;
+    const BaseQuery = {};
+    if (search) {
+        BaseQuery.name = { $regex: search, $options: "i" };
+    }
+    if (price) {
+        BaseQuery.price = { $lte: Number(price) };
+    }
+    if (category) {
+        BaseQuery.category = category;
+    }
+    const products = await Product.find(BaseQuery);
+    return res.status(200).json(products);
+});
+export { createProducts, allProducts, singleProduct, updateProduct, productCategory, latestProducts, searchProducts };

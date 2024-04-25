@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { TryCatch } from "../../utils/tryCatch.js";
-import { ProductsTypes } from "../../types/productsTypes.js";
+import { ProductQuery, ProductsTypes, SearchQuery } from "../../types/productsTypes.js";
 import createHttpError from "http-errors";
 import { Product } from "../../models/productModel/products.model.js";
 import { rm } from "fs";
@@ -99,4 +99,22 @@ const updateProduct= TryCatch(async(req:Request, res, next)=>{
     return res.status(200).json({message: "product update successfully", success:true});
 })
 
-export {createProducts, allProducts,singleProduct, updateProduct, productCategory, latestProducts };
+const searchProducts = TryCatch(async(req:Request<{},{},{},ProductQuery>, res, next)=>{
+
+    const {search, price, category} = req.query;
+
+    const BaseQuery:SearchQuery = {}
+
+    if(search){BaseQuery.name = {$regex:search, $options:"i"}}
+
+    if(price){BaseQuery.price = {$lte: Number(price)}}
+
+    if(category) {BaseQuery.category= category as string}
+
+    const products= await Product.find(BaseQuery);
+
+    return res.status(200).json(products);
+
+})
+
+export {createProducts, allProducts,singleProduct, updateProduct, productCategory, latestProducts, searchProducts };

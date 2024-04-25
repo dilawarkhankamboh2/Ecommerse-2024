@@ -1,4 +1,4 @@
-import { allProducts, createProducts, latestProducts, productCategory, singleProduct, updateProduct } from "../../controllers/products/productsController.js"
+import { allProducts, createProducts, latestProducts, productCategory, searchProducts, singleProduct, updateProduct } from "../../controllers/products/productsController.js"
 import { fileUpload } from "../../utils/upload.js";
 
 export const productRoutes = (app: any)=>{
@@ -20,4 +20,7 @@ export const productRoutes = (app: any)=>{
 
     // update single product
     app.put("/api/product/update-product/:id", fileUpload, updateProduct);
+
+    // search all products
+    app.get("/api/product/search-products", searchProducts);
 }
