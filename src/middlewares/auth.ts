@@ -5,28 +5,16 @@ import { config } from "../config/config.js";
 import { Auth } from "../models/authModel/auth.model.js";
 import { Request } from "express";
 
+export interface AuthType { userId:string}
 
-export interface AuthRequest extends Request {
+export const auth = TryCatch(async(req:Request<{},{},AuthType>, res,next)=>{
 
-    userId:string;
-}
+    const token= req.cookies.token;
 
-export const auth = TryCatch(async(req, res,next)=>{
+    if(!token) return next(createHttpError(401, "Unauthorized user please login"));
 
+    const verifyToken= jwt.verify(token, config.JWT_KEY!)
 
-    const token = req.header("Authorization")
-
-    if(!token){
-
-        return next(createHttpError(401, "Unauthorized user"))
-    }
-
-    const parseToken= token.split(" ")[1];
-
-    const verifyToken= jwt.verify(parseToken, config.JWT_KEY as string);
-
-    const _req = req as AuthRequest ;
-    _req.userId= verifyToken.sub as string;
+    req.body.userId = verifyToken as string;
     next()
-
 })

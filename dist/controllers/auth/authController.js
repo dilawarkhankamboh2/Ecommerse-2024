@@ -23,6 +23,7 @@ const register = TryCatch(async (req, res, next) => {
     const user = await Auth.create({ _id, name, email, password: hashPassword, dob });
     // create jwt token
     const token = jwt.sign(user._id, config.JWT_KEY);
+    res.cookie("token", token);
     return res.json({ token: token });
 });
 // login 
@@ -42,8 +43,13 @@ const login = TryCatch(async (req, res, next) => {
             return res.status(400).json({ message: "Wrong username or password" });
         }
         const token = jwt.sign(user._id, config.JWT_KEY);
+        res.cookie("token", token);
         return res.status(200).json({ message: "You are logged in", token: token });
     }
     return res.status(400).json({ message: "Opps please signin" });
 });
-export { register, login };
+const logout = TryCatch(async (req, res, next) => {
+    res.clearCookie("token");
+    return res.status(200).json({ message: "You are logout", status: true });
+});
+export { register, login, logout };
