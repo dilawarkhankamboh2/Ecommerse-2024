@@ -117,5 +117,24 @@ const searchProducts = TryCatch(async(req:Request<{},{},{},ProductQuery>, res, n
     return res.status(200).json(products);
 
 })
+// delete product
+const deleteProduct = TryCatch(async(req, res, next)=>{
 
-export {createProducts, allProducts,singleProduct, updateProduct, productCategory, latestProducts, searchProducts };
+    const {id} = req.params;
+
+    const product= await Product.findById(id);
+
+    if (product) {
+        rm(product?.photo!, (err) => {
+            if (err) {
+                console.error("Error deleting file:", err);
+            } else {
+                console.log("File deleted successfully");
+            }
+        });
+    }
+    return res.status(200).json(product);
+
+})
+
+export {createProducts, allProducts,singleProduct, updateProduct, productCategory, latestProducts, searchProducts, deleteProduct };

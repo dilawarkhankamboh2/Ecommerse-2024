@@ -1,4 +1,4 @@
-import { allProducts, createProducts, latestProducts, productCategory, searchProducts, singleProduct, updateProduct } from "../../controllers/products/productsController.js"
+import { allProducts, createProducts, deleteProduct, latestProducts, productCategory, searchProducts, singleProduct, updateProduct } from "../../controllers/products/productsController.js"
 import { fileUpload } from "../../utils/upload.js";
 
 export const productRoutes = (app: any)=>{
@@ -23,4 +23,7 @@ export const productRoutes = (app: any)=>{
 
     // search all products
     app.get("/api/product/search-products", searchProducts);
+
+    // delete single product
+    app.delete("/api/product/delete-product/:id", deleteProduct);
 }
