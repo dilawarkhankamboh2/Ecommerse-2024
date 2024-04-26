@@ -80,5 +80,17 @@ const updateStatus= TryCatch(async(req, res, next)=>{
     await order.save();
     return res.status(200).json({message: "Change order status"});
 })
+// delete order status
+const deleteOrder= TryCatch(async(req, res, next)=>{
 
-export {createOrders, allOrders, meOrders, singleOrder,updateStatus};
+    const {id} = req.params;
+
+    const order= await Order.findById(id);
+
+    if(!order){return next(createHttpError(400, "orders not found"))}
+
+    await order.deleteOne();
+    return res.status(200).json({message: "Delete order successfully"});
+})
+
+export {createOrders, allOrders, meOrders, singleOrder,updateStatus,deleteOrder};
