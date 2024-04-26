@@ -15,7 +15,7 @@ export interface OrderTypes{
         name:string;
         price:number;
         photo:string;
-        qty:number
+        quantity:number
     }]
 
     shippingCharges:number;
@@ -23,6 +23,6 @@ export interface OrderTypes{
     subTotal:number;
     tax:number;
     discount:number;
-    status: "Processing" | "Shipped" | "Delivered" | "Processing",
+    status?: "Processing" | "Shipped" | "Delivered" | "Processing",
     user?:string;
 }

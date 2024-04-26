@@ -1,4 +1,5 @@
 import { authRoutes } from "./authRoutes/auth.routes.js"
+import { orderRoutes } from "./orderRoutes/order.routes.js";
 import { productRoutes } from "./productRoutes/product.routes.js";
 import { userRoutes } from "./userRoutes/user.routes.js";
 
@@ -10,4 +11,6 @@ export const allApiRoutes = (app:any)=>{
     productRoutes(app);
     // user routes
     userRoutes(app);
+    // order routes
+    orderRoutes(app);
 }

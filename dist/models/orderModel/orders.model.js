@@ -11,10 +11,10 @@ const ordersSchema = new mongoose.Schema({
             name: { type: String, required: true },
             photo: { type: String, required: true },
             price: { type: Number, required: true },
-            qty: { type: Number, required: true },
+            quantity: { type: Number, required: true },
             productId: { type: String, required: true }
         }],
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "Auth", required: true },
+    user: { type: String, ref: "Auth", required: true },
     subTotal: { type: Number, required: true },
     tax: { type: Number, required: true },
     shippingCharges: { type: Number, required: true },
