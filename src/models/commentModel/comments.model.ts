@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const commentSchema= new mongoose.Schema({
 
     comment: {type:String},
-    userId: {type: mongoose.Schema.Types.ObjectId, ref:"Auth"},
+    userId: {type: String, ref:"Auth"},
     productId: {type:mongoose.Schema.Types.ObjectId, ref: "Product"}
 
 },{timestamps:true});
