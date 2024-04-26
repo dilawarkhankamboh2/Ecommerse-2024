@@ -39,12 +39,21 @@ const meOrders= TryCatch(async(req, res, next)=>{
 
     const orders= await Order.find({user: id});
 
-    if(!orders){
-
-        return next(createHttpError(400, "orders not found"));
-    }
-
+    if(!orders){return next(createHttpError(400, "orders not found"))}
+    
     return res.status(200).json(orders);
 })
 
-export {createOrders, allOrders, meOrders};
+// single order
+const singleOrder= TryCatch(async(req, res, next)=>{
+
+    const {id} = req.params;
+
+    const order= await Order.findById(id);
+
+    if(!order){return next(createHttpError(400, "orders not found"))}
+
+    return res.status(200).json(order);
+})
+
+export {createOrders, allOrders, meOrders, singleOrder};
