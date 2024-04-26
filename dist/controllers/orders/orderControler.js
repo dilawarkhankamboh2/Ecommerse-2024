@@ -15,7 +15,16 @@ const createOrders = TryCatch(async (req, res, next) => {
 });
 // get all orders
 const allOrders = TryCatch(async (req, res, next) => {
-    const orders = await Order.find({});
+    const orders = await Order.find({}).populate("user", ["name", "email"]);
     return res.status(200).json(orders);
 });
-export { createOrders, allOrders };
+// me all orders
+const meOrders = TryCatch(async (req, res, next) => {
+    const { id } = req.query;
+    const orders = await Order.find({ user: id });
+    if (!orders) {
+        return next(createHttpError(400, "orders not found"));
+    }
+    return res.status(200).json(orders);
+});
+export { createOrders, allOrders, meOrders };

@@ -8,4 +8,4 @@ const authSchema = new mongoose.Schema({
     role: { type: String, required: true, default: "user" }
 });
 // auth model
-export const Auth = mongoose.model("auth", authSchema);
+export const Auth = mongoose.model("Auth", authSchema);
