@@ -22,7 +22,9 @@ const applyDiscount = TryCatch(async(req, res, next)=>{
 
     const myCoupon= await Coupon.findOne({coupon});
 
-    if(myCoupon) return next(createHttpError(400, "Coupon not found"));
+    if(!myCoupon) return next(createHttpError(400, "Coupon not found"));
+
+    return res.status(201).json({message: "Coupon applied successfully"});
 
 })
 
