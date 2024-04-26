@@ -40,7 +40,7 @@ const meOrders= TryCatch(async(req, res, next)=>{
     const orders= await Order.find({user: id});
 
     if(!orders){return next(createHttpError(400, "orders not found"))}
-    
+
     return res.status(200).json(orders);
 })
 
@@ -56,4 +56,29 @@ const singleOrder= TryCatch(async(req, res, next)=>{
     return res.status(200).json(order);
 })
 
-export {createOrders, allOrders, meOrders, singleOrder};
+// update order status
+const updateStatus= TryCatch(async(req, res, next)=>{
+
+    const {id} = req.params;
+
+    const order= await Order.findById(id);
+
+    if(!order){return next(createHttpError(400, "orders not found"))}
+
+    switch (order.status) {
+        case "Shipped":         
+        order.status= "Processing"
+            break;
+        case "Processing":
+            
+        order.status= "Delivered"
+            break;
+        default:
+        order.status= "Delivered"
+    }
+
+    await order.save();
+    return res.status(200).json({message: "Change order status"});
+})
+
+export {createOrders, allOrders, meOrders, singleOrder,updateStatus};
