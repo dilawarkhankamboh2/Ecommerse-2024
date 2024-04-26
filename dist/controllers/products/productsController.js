@@ -113,6 +113,7 @@ const deleteProduct = TryCatch(async (req, res, next) => {
             }
         });
     }
-    return res.status(200).json(product);
+    await product?.deleteOne();
+    return res.status(200).json({ message: "Product deleted successfully" });
 });
 export { createProducts, allProducts, singleProduct, updateProduct, productCategory, latestProducts, searchProducts, deleteProduct };
