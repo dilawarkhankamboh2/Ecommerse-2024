@@ -8,7 +8,7 @@ import { rm } from "fs";
 // create product
 const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, next)=>{
 
-    const {name, price, stock, category, numOfReviews, rating, images, reviews} = req.body;
+    const {name, description, price, stock, category, numOfReviews, rating, images, reviews} = req.body;
 
     if(!name || !price || !stock || !category){
 
@@ -18,7 +18,7 @@ const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, nex
 
     const newProduct = await Product.create(
             
-          {name, price, category, stock, numOfReviews,rating, images, reviews}
+          {name, description, price, category, stock, numOfReviews,rating, images, reviews}
     );
     await newProduct.save();
 

@@ -4,12 +4,12 @@ import { Product } from "../../models/productModel/products.model.js";
 import { rm } from "fs";
 // create product
 const createProducts = TryCatch(async (req, res, next) => {
-    const { name, price, stock, category, numOfReviews, rating, images, reviews } = req.body;
+    const { name, description, price, stock, category, numOfReviews, rating, images, reviews } = req.body;
     if (!name || !price || !stock || !category) {
         return next(createHttpError(400, "All fields are required"));
     }
     // const images = req.files;
-    const newProduct = await Product.create({ name, price, category, stock, numOfReviews, rating, images, reviews });
+    const newProduct = await Product.create({ name, description, price, category, stock, numOfReviews, rating, images, reviews });
     await newProduct.save();
     // if(!images){return next(createHttpError(400, "images must be required"))}
     // if (images) {
