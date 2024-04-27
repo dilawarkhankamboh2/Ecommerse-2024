@@ -5,7 +5,8 @@ import { fileUpload } from "../../utils/upload.js";
 export const productRoutes = (app: any)=>{
 
     // create products
-    app.post("/api/product/create", fileUpload, auth, createProducts);
+    // app.post("/api/product/create", fileUpload, auth, createProducts);
+    app.post("/api/product/create",  auth, createProducts);
 
     // get all products
     app.get("/api/product/all-products", allProducts);

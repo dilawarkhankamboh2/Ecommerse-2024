@@ -8,23 +8,41 @@ import { rm } from "fs";
 // create product
 const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, next)=>{
 
-    const {name, price, stock, category, numOfReviews, rating, reviews} = req.body;
+    const {name, price, stock, category, numOfReviews, rating, images, reviews} = req.body;
 
-    if(!name || !price || !stock || !category || !numOfReviews || !rating || !reviews){
+    if(!name || !price || !stock || !category){
 
         return next(createHttpError(400, "All fields are required"));
     }
+    // const images = req.files;
 
-    // photo
-    const photo= req.file;
+    const newProduct = await Product.create(
+            
+          {name, price, category, stock, numOfReviews,rating, images, reviews}
+    );
+    await newProduct.save();
 
-    if(!photo){return next(createHttpError(400, "photo must be required"))}
+    // if(!images){return next(createHttpError(400, "images must be required"))}
 
-    // create products
-    await Product.create({name, price,category,stock, photo: photo.path})
+    // if (images) {
+
+    //     for (const productImages of Object.values(images)) {
+
+            // Create a new product
+    //     const newProduct = await Product.create(
+            
+    //         {name, price, category, stock, numOfReviews,rating, images:[], reviews}
+    //     );
+
+        // newProduct.images = productImages.map((image: { path: string }) => ({ image: image.path }));
+    //     for (const image of productImages) {newProduct.images.push({ image: image.path })}
+    
+    //         await newProduct.save();
+    //     }
+    // }
 
     return res.status(201).json({message: "product created", success:true});
-    
+
 });
 
 // get all products

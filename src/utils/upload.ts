@@ -14,4 +14,4 @@ import multer from "multer";
 })
 
 
-export const fileUpload= multer({storage}).fields([{name: "product", maxCount:4}]);
+export const fileUpload= multer({storage}).fields([{name: "image", maxCount:2}]);

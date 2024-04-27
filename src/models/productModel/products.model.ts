@@ -19,9 +19,9 @@ const productSchema= new mongoose.Schema<ProductsTypes>({
     numOfReviews:{type:Number, required:true, default:0},
 
     reviews:[{
-        name:{type:String, required:true},
-        rating: {type:Number, required:true},
-        comment: {type:String, required:true}
+        name:{type:String},
+        rating: {type:Number},
+        comment: {type:String}
     }]
 
 },{timestamps:true});
