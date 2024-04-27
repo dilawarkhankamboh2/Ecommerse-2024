@@ -1,10 +1,11 @@
 import { login, logout, register } from "../../controllers/auth/authController.js"
 import { auth } from "../../middlewares/auth.js";
+import { avator } from "../../multer/upload.js";
 
 export const authRoutes= (app:any)=>{
 
     // register user
-    app.post("/api/user/register", register);
+    app.post("/api/user/register", avator, register);
 
     // login user
     app.post("/api/user/login", login);

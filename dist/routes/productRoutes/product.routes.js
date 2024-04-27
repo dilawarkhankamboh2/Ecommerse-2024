@@ -1,6 +1,6 @@
 import { allProducts, createProducts, deleteProduct, latestProducts, productCategory, searchProducts, singleProduct, updateProduct } from "../../controllers/products/productsController.js";
 import { auth } from "../../middlewares/auth.js";
-import { fileUpload } from "../../utils/upload.js";
+import { fileUpload } from "../../multer/upload.js";
 export const productRoutes = (app) => {
     // create products
     // app.post("/api/product/create", fileUpload, auth, createProducts);

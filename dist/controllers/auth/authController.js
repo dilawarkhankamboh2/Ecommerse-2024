@@ -8,6 +8,11 @@ import { config } from "../../config/config.js";
 const register = TryCatch(async (req, res, next) => {
     // get all body data
     const { _id, name, email, password, dob } = req.body;
+    // user avator photo
+    const avator = req.file;
+    if (!avator) {
+        return next(createHttpError(400, "avator is required!"));
+    }
     // validate user data
     if (!_id || !name || !email || !password || !dob) {
         return next(createHttpError(400, "All fields are required!"));
@@ -20,7 +25,7 @@ const register = TryCatch(async (req, res, next) => {
     // hash password using bcrypt
     const hashPassword = await bcrypt.hash(password, 10);
     // create user
-    const user = await Auth.create({ _id, name, email, password: hashPassword, dob });
+    const user = await Auth.create({ _id, name, email, password: hashPassword, dob, avator: avator.path });
     // create jwt token
     const token = jwt.sign(user._id, config.JWT_KEY);
     res.cookie("token", token);

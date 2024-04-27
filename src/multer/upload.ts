@@ -14,4 +14,5 @@ import multer from "multer";
 })
 
 
+export const avator = multer({storage}).single("avator");
 export const fileUpload= multer({storage}).fields([{name: "image", maxCount:2}]);
