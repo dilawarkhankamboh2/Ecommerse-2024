@@ -14,9 +14,9 @@ const productSchema= new mongoose.Schema<ProductsTypes>({
 
     category: {type:String, required:true},
 
-    rating:{type:Number, required:true},
+    rating:{type:Number, default:0, required:true},
 
-    numOfReviews:{type:Number, required:true},
+    numOfReviews:{type:Number, required:true, default:0},
 
     reviews:[{
         name:{type:String, required:true},

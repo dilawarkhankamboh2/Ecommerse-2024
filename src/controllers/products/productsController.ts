@@ -8,9 +8,9 @@ import { rm } from "fs";
 // create product
 const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, next)=>{
 
-    const {name, price, stock, category} = req.body;
+    const {name, price, stock, category, numOfReviews, rating, reviews} = req.body;
 
-    if(!name || !price || !stock || !category){
+    if(!name || !price || !stock || !category || !numOfReviews || !rating || !reviews){
 
         return next(createHttpError(400, "All fields are required"));
     }
@@ -77,7 +77,7 @@ const updateProduct= TryCatch(async(req:Request, res, next)=>{
     const product= await Product.findById(id);
 
     if (photo) {
-        rm(product?.photo!, (err) => {
+        rm(photo.path!, (err) => {
             if (err) {
                 console.error("Error deleting file:", err);
             } else {
@@ -88,7 +88,7 @@ const updateProduct= TryCatch(async(req:Request, res, next)=>{
     
     if(!product) return next(createHttpError(400, "product not found!"))
 
-    if (photo && product) {product.photo = photo.path};
+    // if (photo && product) {product.images = photo.path};
     if (name && product) {product.name = name};
     if (stock && product) {product.stock = stock};
     if (price && product) {product.price = price};
@@ -125,7 +125,7 @@ const deleteProduct = TryCatch(async(req, res, next)=>{
     const product= await Product.findById(id);
 
     if (product) {
-        rm(product?.photo!, (err) => {
+        rm(product.images[0].image, (err) => {
             if (err) {
                 console.error("Error deleting file:", err);
             } else {
