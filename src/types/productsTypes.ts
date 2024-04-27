@@ -29,4 +29,6 @@ export type ProductQuery = {
     search?: string;
     price?: string;
     category?: string;
-  };
+    page?:number;
+};
+
