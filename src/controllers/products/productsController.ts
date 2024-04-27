@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { TryCatch } from "../../utils/tryCatch.js";
-import { PageQuery, ProductQuery, ProductsTypes, SearchQuery } from "../../types/productsTypes.js";
+import {ProductQuery, ProductsTypes, SearchQuery } from "../../types/productsTypes.js";
 import createHttpError from "http-errors";
 import { Product } from "../../models/productModel/products.model.js";
 import { rm } from "fs";
