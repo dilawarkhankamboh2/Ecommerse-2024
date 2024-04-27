@@ -4,7 +4,14 @@ export interface ProductsTypes{
     price:number;
     stock:number;
     category:string;
-    photo:string;
+    images:[{image:string}];
+    rating:number;
+    numOfReviews:number;
+    reviews:[{
+        name:string;
+        rating:number;
+        comment:string;
+    }]
 }
 
 export interface SearchQuery{
