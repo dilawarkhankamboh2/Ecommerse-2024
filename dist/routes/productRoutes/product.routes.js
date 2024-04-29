@@ -1,4 +1,4 @@
-import { allProducts, createProducts, deleteProduct, latestProducts, productCategory, searchProducts, singleProduct, updateProduct } from "../../controllers/products/productsController.js";
+import { allProducts, createProductReview, createProducts, deleteProduct, latestProducts, productCategory, searchProducts, singleProduct, updateProduct } from "../../controllers/products/productsController.js";
 import { auth } from "../../middlewares/auth.js";
 import { fileUpload } from "../../multer/upload.js";
 export const productRoutes = (app) => {
@@ -19,4 +19,6 @@ export const productRoutes = (app) => {
     app.get("/api/product/search-products", searchProducts);
     // delete single product
     app.delete("/api/product/delete-product/:id", auth, deleteProduct);
+    // create product review
+    app.post("/api/review/create", auth, createProductReview);
 };

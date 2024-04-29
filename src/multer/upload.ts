@@ -13,6 +13,8 @@ import multer from "multer";
     }
 })
 
+// 3:16
+
 // this is for user
 export const avator = multer({storage}).single("avator");
 // this is for products

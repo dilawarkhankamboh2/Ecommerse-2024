@@ -7,6 +7,7 @@ const storage = multer.diskStorage({
         callback(null, `${Date.now()}-${file.originalname}`);
     }
 });
+// 3:16
 // this is for user
 export const avator = multer({ storage }).single("avator");
 // this is for products

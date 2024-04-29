@@ -8,7 +8,7 @@ import { rm } from "fs";
 // create product
 const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, next)=>{
 
-    const {name, description, price, stock, category, numOfReviews, rating, images, reviews} = req.body;
+    const {name, description, price, stock, category, numOfReviews, ratings, images, reviews} = req.body;
 
     if(!name || !price || !stock || !category){
 
@@ -18,8 +18,13 @@ const createProducts= TryCatch(async(req:Request<{},{}, ProductsTypes>, res, nex
 
     const newProduct = await Product.create(
             
-          {name, description, price, category, stock, numOfReviews,rating, images, reviews}
+          {
+            name, description, price, category, stock, numOfReviews,ratings, images, reviews,
+            user:req.body.userId
+        }
     );
+
+    newProduct.numOfReviews = newProduct.reviews.length
     await newProduct.save();
 
     // if(!images){return next(createHttpError(400, "images must be required"))}
@@ -161,4 +166,44 @@ const deleteProduct = TryCatch(async(req, res, next)=>{
 
 })
 
-export {createProducts, allProducts,singleProduct, updateProduct, productCategory, latestProducts, searchProducts, deleteProduct };
+
+//  create new review or update the review
+const createProductReview= TryCatch(async(req, res, next)=>{
+
+    const {name, rating, comment, productId } = req.body;
+
+  const review = {user: req.body.userId, name, rating: Number(rating), comment};
+
+    const product = await Product.findById(productId);
+
+    let userReviewFound = false;
+
+    product?.reviews.forEach(rev => {
+
+        if (!rev.user || rev.user.toString() === req.body.userId.toString()) {
+            rev.user = req.body.userId;
+            rev.name = name;
+            rev.comment = comment;
+            rev.rating = rating;
+            userReviewFound = true;
+        }
+    });
+
+    
+    if (!userReviewFound) {product?.reviews.push(review)}
+    
+    if (product && product.reviews) {product.numOfReviews = product.reviews.length};
+
+    // Calculate average rating
+    let totalRating = 0;
+    if (product?.reviews && product.reviews.length > 0) {
+
+       product.reviews.forEach(review => totalRating += review.rating);
+       product.ratings = totalRating / product.reviews.length;
+    } 
+
+    await product?.save();
+    res.status(200).json({ success: true });
+
+})
+export {createProducts, allProducts,singleProduct, updateProduct, productCategory, latestProducts, searchProducts, deleteProduct, createProductReview};

@@ -1,18 +1,21 @@
 
 export interface ProductsTypes{
+    userId:string;
     name:string;
     description:string;
     price:number;
     stock:number;
     category:string;
     images:[{image:string}];
-    rating:number;
+    ratings:number;
     numOfReviews:number;
     reviews:[{
         name:string;
         rating:number;
         comment:string;
+        user:string;
     }]
+    user:string;
 }
 
 export interface SearchQuery{
