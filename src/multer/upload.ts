@@ -13,6 +13,7 @@ import multer from "multer";
     }
 })
 
-
+// this is for user
 export const avator = multer({storage}).single("avator");
+// this is for products
 export const fileUpload= multer({storage}).fields([{name: "image", maxCount:2}]);
